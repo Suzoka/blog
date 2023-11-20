@@ -3,5 +3,5 @@ $user = "";
 $password = "";
 $dbname = "";
 
-new PDO("mysql:host=localhost;dbname=$dbname", $user, $password);
+$db = new PDO("mysql:host=localhost;dbname=$dbname", $user, $password);
 ?>

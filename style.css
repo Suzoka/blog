@@ -1,0 +1,38 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2{
+    width: 85%;
+    margin-left: auto;
+}
+
+a.lienBillet {
+    display: block;
+    background-color: #353535;
+    border-radius: 25px;
+    color: white;
+    max-width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 5px 15px;
+    text-align: center;
+    text-decoration: none;
+    margin-bottom: 25px;
+}
+
+a.lienBillet p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
