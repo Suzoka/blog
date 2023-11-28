@@ -5,14 +5,12 @@ function getLastsBillets() {
     $stmt->execute();
     return $stmt;
 }
-
 function getArchives() {
     global $db;
     $stmt = $db->prepare("SELECT * FROM `billets` ORDER BY `date_post` DESC limit 50 OFFSET 3;");
     $stmt->execute();
     return $stmt;
 }
-
 function getBillet($id) {
     global $db;
     $stmt = $db->prepare("SELECT * FROM `billets` WHERE `id_billet` = :id;");
@@ -20,4 +18,5 @@ function getBillet($id) {
     $stmt->execute();
     return $stmt;
 }
+
 ?>
