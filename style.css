@@ -110,3 +110,9 @@ header p {
     padding: 15px;
     font-size: 1.2rem;
 }
+
+.erreur {
+    font-size: 1.3rem;
+    color: red;
+    max-width: 100%;
+}

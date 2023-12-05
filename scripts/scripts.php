@@ -44,4 +44,21 @@ function disconnection() {
     header('Location: ./index.php?page=0');
 }
 
+function traiteInscription($login, $mdp) {
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM `utilisateurs` where pseudo=:username");
+    $stmt->bindValue(':username', $login, PDO::PARAM_STR);
+    $stmt->execute();
+    $count = $stmt->rowCount();
+    if ($count) {
+        return false;
+    } else {
+        $stmt = $db->prepare("INSERT INTO `utilisateurs` (`pseudo`, `mdp`, `admin`) VALUES (:username, :password,0);");
+        $stmt->bindValue(':username', $login, PDO::PARAM_STR);
+        $stmt->bindValue(':password', password_hash($mdp, PASSWORD_DEFAULT), PDO::PARAM_STR);
+        $stmt->execute();
+        $_SESSION['login'] = $login;
+        return true;
+    }
+}
 ?>

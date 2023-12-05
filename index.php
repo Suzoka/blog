@@ -16,20 +16,36 @@ if (isset($_GET['page'])) {
             break;
         case 3:
             include './vues/formulaire_inscription.php';
-
             break;
         case 4:
             if (traiteLogin($_POST['login'], $_POST['MDP'])) {
-                header('Location: ./index.php?page=' . $_GET["from"]);
+                $url = './index.php?page=' . $_GET["from"];
+                if (isset($_GET["id"])) {
+                    $url .= "&id=" . $_GET["id"];
+                }
+                header('Location: ' . $url);
             } else {
-                header('Location: ./index.php?page=2&erreur=true');
+                header('Location: ./index.php?page=2&erreur=true&from=' . $_GET["from"]);
             }
             break;
         case 5:
+            if (traiteInscription($_POST['login'], $_POST['MDP'])) {
+                $url = './index.php?page=' . $_GET["from"];
+                if (isset($_GET["id"])) {
+                    $url .= "&id=" . $_GET["id"];
+                }
+                header('Location: ' . $url);
+            } else {
+                header('Location: ./index.php?page=3&erreur=true&from=' . $_GET["from"]);
+            }
             break;
         case 6:
             disconnection();
-            header('Location: ./index.php?page=' . $_GET["from"]);
+            $url = './index.php?page=' . $_GET["from"];
+            if (isset($_GET["id"])) {
+                $url .= "&id=" . $_GET["id"];
+            }
+            header('Location: ' . $url);
             break;
         default:
             include './vues/accueil.php';

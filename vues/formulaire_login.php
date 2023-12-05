@@ -16,7 +16,7 @@
     }
     ?>
     <br><br><br>
-    <form action="./index.php?page=4&from=<?= $_GET["from"] ?>" method="POST">
+    <form action="./index.php?page=4&from=<?php echo($_GET["from"]); if(isset($_GET["id"])){echo("&id=".$_GET["id"]);} ?>" method="POST">
         <label for="login">Votre login</label>
         <input type="text" id="login" name="login">
         <br><br>
@@ -29,11 +29,11 @@
 
     <?php
     if (isset($_GET['erreur'])) {
-        include './vues/erreur.php';
+        echo "<p class=\"erreur\">Erreur de login ou de mot de passe</p>";
     }
     ?>
 
-    <p>Vous n'avez pas de compte ? <a href="./index.php?page=3">En créer un</a></p>
+    <p>Vous n'avez pas de compte ? <a href="./index.php?page=3&from=<?php echo($_GET["from"]); if(isset($_GET["id"])){echo("&id=".$_GET["id"]);} ?>">En créer un</a></p>
 
 </body>
 
