@@ -1,7 +1,3 @@
-<?php     
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -17,9 +13,10 @@ session_start();
     <header><?php 
     if (isset($_SESSION['login'])) {
         echo "<p>Bonjour " . $_SESSION['login'] . "</p>";
+        echo "<a href='index.php?page=6&from=0'>Se déconnecter</a>";
     }
     else{
-        echo "<a href='./index.php?page=2'>Se connecter</a>";
+        echo "<a href='./index.php?page=2&from=0'>Se connecter</a>";
     }?></header>
     <h1>Blog de Morgan ZARKA</h1>
     <br>
@@ -43,9 +40,10 @@ session_start();
         </a>
     <?php } ?>
     <button id="archive">Afficher les archives</button>
+    <div class="archives"></div>
 
 
-    <script src="./script/script.js"></script>
+    <script src="./scripts/script.js"></script>
 </body>
 
 </html>

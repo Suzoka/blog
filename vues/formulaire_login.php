@@ -11,18 +11,17 @@
 
 <body>
     <?php
-    session_start();
     if (isset($_SESSION['login'])) {
         echo "<p>Bonjour " . $_SESSION['login'] . "</p>";
     }
     ?>
     <br><br><br>
-    <form action="./traitelogin.php">
+    <form action="./index.php?page=4&from=<?= $_GET["from"] ?>" method="POST">
         <label for="login">Votre login</label>
         <input type="text" id="login" name="login">
         <br><br>
         <label for="MDP">Votre MDP</label>
-        <input type="text" id="MDP" name="MDP">
+        <input type="password" id="MDP" name="MDP">
 
         <input type="submit" value="Envoyer">
 
@@ -30,19 +29,12 @@
 
     <?php
     if (isset($_GET['erreur'])) {
-        switch ($_GET['erreur']) {
-            case 'mdp':
-                echo "<p>Erreur : Mot de passe incorrect</p>";
-                break;
-            case 'login':
-                echo "<p>Erreur : Login inconnu</p>";
-                break;
-        }
+        include './vues/erreur.php';
     }
     ?>
 
     <p>Vous n'avez pas de compte ? <a href="./index.php?page=3">En créer un</a></p>
 
-    </body>
+</body>
 
 </html>

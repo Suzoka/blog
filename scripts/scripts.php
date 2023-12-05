@@ -19,4 +19,29 @@ function getBillet($id) {
     return $stmt;
 }
 
+function traiteLogin($login, $mdp) {
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM `utilisateurs` where pseudo=:username");
+    $stmt->bindValue(':username', $login, PDO::PARAM_STR);
+    $stmt->execute();
+    $count = $stmt->rowCount();
+    if ($count) {
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (password_verify($mdp, $result['mdp'])) {
+            $_SESSION['login'] = $login;
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+function disconnection() {
+    $_session = array();
+    session_destroy();
+    header('Location: ./index.php?page=0');
+}
+
 ?>

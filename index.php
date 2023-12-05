@@ -1,4 +1,5 @@
 <?php
+session_start();
 include './scripts/connect-database.php';
 include './scripts/scripts.php';
 
@@ -15,6 +16,20 @@ if (isset($_GET['page'])) {
             break;
         case 3:
             include './vues/formulaire_inscription.php';
+
+            break;
+        case 4:
+            if (traiteLogin($_POST['login'], $_POST['MDP'])) {
+                header('Location: ./index.php?page=' . $_GET["from"]);
+            } else {
+                header('Location: ./index.php?page=2&erreur=true');
+            }
+            break;
+        case 5:
+            break;
+        case 6:
+            disconnection();
+            header('Location: ./index.php?page=' . $_GET["from"]);
             break;
         default:
             include './vues/accueil.php';
