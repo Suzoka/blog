@@ -9,6 +9,8 @@ if (isset($_GET['page'])) {
             include './vues/accueil.php';
             break;
         case 1:
+            $billet = getBillet($_GET["id"]);
+            $commentaires = getCommentaires($_GET["id"]);
             include './vues/billet.php';
             break;
         case 2:
@@ -29,7 +31,7 @@ if (isset($_GET['page'])) {
             }
             break;
         case 5:
-            if (traiteInscription($_POST['login'], $_POST['MDP'])) {
+            if (traiteInscription($_POST['login'], $_POST['MDP'], $_POST['mail'])) {
                 $url = './index.php?page=' . $_GET["from"];
                 if (isset($_GET["id"])) {
                     $url .= "&id=" . $_GET["id"];

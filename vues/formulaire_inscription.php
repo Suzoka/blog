@@ -12,6 +12,7 @@
 <body>
     <br><br><br>
     <form action="./index.php?page=5&from=<?php echo($_GET["from"]); if(isset($_GET["id"])){echo("&id=".$_GET["id"]);}?>" method="POST">
+    <label for="mail">Votre adresse mail</label><input type="email" name="mail" id="mail">
         <label for="login">Votre login</label>
         <input type="text" id="login" name="login">
         <br><br>

@@ -44,7 +44,7 @@ function disconnection() {
     header('Location: ./index.php?page=0');
 }
 
-function traiteInscription($login, $mdp) {
+function traiteInscription($login, $mdp, $mail) {
     global $db;
     $stmt = $db->prepare("SELECT * FROM `utilisateurs` where pseudo=:username");
     $stmt->bindValue(':username', $login, PDO::PARAM_STR);
@@ -53,12 +53,21 @@ function traiteInscription($login, $mdp) {
     if ($count) {
         return false;
     } else {
-        $stmt = $db->prepare("INSERT INTO `utilisateurs` (`pseudo`, `mdp`, `admin`) VALUES (:username, :password,0);");
+        $stmt = $db->prepare("INSERT INTO `utilisateurs` (`pseudo`, `mdp`, `admin`, `mail`) VALUES (:username, :password, 0, :mail);");
         $stmt->bindValue(':username', $login, PDO::PARAM_STR);
         $stmt->bindValue(':password', password_hash($mdp, PASSWORD_DEFAULT), PDO::PARAM_STR);
+        $stmt->bindValue(':mail', $mail, PDO::PARAM_STR);
         $stmt->execute();
         $_SESSION['login'] = $login;
         return true;
     }
+}
+
+function getCommentaires($id) {
+    global $db;
+    $stmt = $db->prepare("select * from `commentaires` c inner join `utilisateurs` u on c.ext_id_auteur = u.id_user where ext_id_billet = :id;");
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt;
 }
 ?>

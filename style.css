@@ -72,8 +72,10 @@ p {
     font-size: 1.3rem;
 }
 
-.titreFlex p {
+.titreFlex p, .commentaire p.contenu {
     margin-right: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .signature {
@@ -81,6 +83,7 @@ p {
     text-align: right;
     max-width: none;
     padding-right: 15px;
+    margin-top: 5px;
 }
 
 header {
@@ -115,4 +118,22 @@ header p {
     font-size: 1.3rem;
     color: red;
     max-width: 100%;
+}
+
+.commentaire {
+    background-color: #353535;
+    border-radius: 25px;
+    color: white;
+    max-width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 5px 15px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.date {
+    text-align: right;
+    margin-bottom: 5px;
+    margin-right: 15px;
 }

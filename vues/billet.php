@@ -1,8 +1,7 @@
 <?php
 
-if (isset($_GET["id"])) {
-    $billet = getBillet($_GET["id"]);
-    if ($billet->rowCount() == 0) {
+if(isset($_GET["id"])) {
+    if($billet->rowCount() == 0) {
         // header("Location: ./index.php");
     } else {
         $billet = $billet->fetch(PDO::FETCH_ASSOC);
@@ -21,11 +20,10 @@ if (isset($_GET["id"])) {
     </head>
 
     <body>
-    <?php var_dump($billet); ?>
         <header>
             <?php
-            if (isset($_SESSION['login'])) {
-                echo "<p>Bonjour " . $_SESSION['login'] . "</p>";
+            if(isset($_SESSION['login'])) {
+                echo "<p>Bonjour ".$_SESSION['login']."</p>";
                 echo "<a href='index.php?page=6&from=1&id=".$billet["id_billet"]."'>Se déconnecter</a>";
             } else {
                 echo "<a href='./index.php?page=2&from=1&id=".$billet["id_billet"]."'>Se connecter</a>";
@@ -37,6 +35,33 @@ if (isset($_GET["id"])) {
         <p>
             <?= $billet["contenu_post"] ?>
         </p>
+        <br><br>
+        <h2>Commentaires</h2>
+        <?php
+        if($commentaires->rowCount() == 0) {
+            echo "<i>Il n'y a aucun commentaire pour le moment.</i>";
+        } else {
+            foreach($commentaires as $key => $value) { ?>
+                <div class='commentaire'>
+                    <p class="date"> <?php echo (date('d/m - H:i', strtotime($value["date_commentaire"]))) ?></p>
+                    <p class='contenu'>
+                        <?php echo $value["contenu_commentaire"] ?>
+                    </p>
+                    <p class='signature'>
+                        <?php echo $value["pseudo"] ?>
+                    </p>
+                </div>
+            <?php }
+        }
+        echo "<br>";
+        if(isset($_SESSION['login'])) { ?>
+
+        <?php } else {
+            echo "<p>Vous devez être connecté pour poster un commentaire.</p>";
+        }
+        ?>
+
+
     </body>
 
     </html>
