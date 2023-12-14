@@ -70,4 +70,22 @@ function getCommentaires($id) {
     $stmt->execute();
     return $stmt;
 }
+
+function getId($login){
+    global $db;
+    $stmt = $db->prepare("SELECT id_user FROM `utilisateurs` where pseudo=:username");
+    $stmt->bindValue(':username', $login, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt;
+}
+
+function addCommentaire($id_billet, $id_user, $commentaire){
+    global $db;
+    $stmt = $db->prepare("INSERT INTO `commentaires` (`ext_id_billet`, `ext_id_auteur`, `contenu_commentaire`, `date_commentaire`) VALUES (:id_billet, :id_auteur, :contenu, NOW());");
+    $stmt->bindValue(':id_billet', $id_billet, PDO::PARAM_INT);
+    $stmt->bindValue(':id_auteur', $id_user, PDO::PARAM_INT);
+    $stmt->bindValue(':contenu', $commentaire, PDO::PARAM_STR);
+    $stmt->execute();
+    return true;
+}
 ?>

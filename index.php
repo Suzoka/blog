@@ -49,6 +49,20 @@ if (isset($_GET['page'])) {
             }
             header('Location: ' . $url);
             break;
+        case 7:
+            if (isset($_SESSION['login']) && isset($_POST['commentaire']) && isset($_POST['id_billet'])) {
+                $id = getId($_SESSION['login'])->fetch(PDO::FETCH_ASSOC);
+                if (addCommentaire($_POST['id_billet'], $id, $_POST['commentaire']) == true) {
+                    echo "<p>Commentaire bien ajouté ajouté. Vous allez être redirigés</p>";
+                    echo "<script>setTimeout(function(){window.location.href = './index.php?page=1&id=" . $_POST['id_billet'] . "';}, 2000);</script>";
+                } else {
+                    echo "<p>Erreur lors de l'ajout du commentaire. Vous allez être redirigés</p>";
+                    echo "<script>setTimeout(function(){window.location.href = './index.php?page=1&id=" . $_POST['id_billet'] . "';}, 3000);</script>";
+                }
+            } else {
+                header('Location: ./index.php?page=2&from=1&id=' . $_POST["id_billet"]);
+            }
+            break;
         default:
             include './vues/accueil.php';
             break;

@@ -55,7 +55,12 @@ if(isset($_GET["id"])) {
         }
         echo "<br>";
         if(isset($_SESSION['login'])) { ?>
-
+            <h3>Ajouter un commentaire</h3>
+            <form action="./index.php?page=7" method="post">
+                <input type="hidden" name="id_billet" value="<?= $billet["id_billet"] ?>">
+                <textarea name="commentaire" id="commentaire" cols="30" rows="10" ></textarea>
+                <input type="submit" value="Poster">
+            </form>
         <?php } else {
             echo "<p>Vous devez être connecté pour poster un commentaire.</p>";
         }
