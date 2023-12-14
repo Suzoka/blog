@@ -63,6 +63,46 @@ if (isset($_GET['page'])) {
                 header('Location: ./index.php?page=2&from=1&id=' . $_POST["id_billet"]);
             }
             break;
+        case 8:
+            if (isset($_SESSION['login']) && checkAdmin($_SESSION['login']) == true) {
+                $resultat = getAllUsers()->fetchAll(PDO::FETCH_ASSOC);
+                $billets = getAllBillets()->fetchAll(PDO::FETCH_ASSOC);
+                include './vues/adminPanel.php';
+            } else {
+                echo "
+                <script>
+                    window.onload = function() {
+                        window.location.href = './index.php?page=0';
+                    }
+                </script>
+                ";
+            }
+            break;
+        case 9:
+            // ! 1 = user, 2 = billet, faire le test
+            if (isset($_SESSION['login']) && checkAdmin($_SESSION['login']) == true) {
+                if (isset($_GET['id'])) {
+                    if (deleteUser($_GET['id']) == true) {
+                        echo "<p>Utilisateur bien supprimé. Vous allez être redirigés</p>";
+                        echo "<script>setTimeout(function(){window.location.href = './index.php?page=8';}, 2000);</script>";
+                    } else {
+                        echo "<p>Erreur lors de la suppression de l'utilisateur. Vous allez être redirigés</p>";
+                        echo "<script>setTimeout(function(){window.location.href = './index.php?page=8';}, 3000);</script>";
+                    }
+                } else {
+                    echo "<p>Erreur lors de la suppression de l'utilisateur. Vous allez être redirigés</p>";
+                    echo "<script>setTimeout(function(){window.location.href = './index.php?page=8';}, 3000);</script>";
+                }
+            } else {
+                echo "
+                <script>
+                    window.onload = function() {
+                        window.location.href = './index.php?page=0';
+                    }
+                </script>
+                ";
+            }
+            break;
         default:
             include './vues/accueil.php';
             break;

@@ -5,16 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Me connecter</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <?php
-    if (isset($_SESSION['login'])) {
-        echo "<p>Bonjour " . $_SESSION['login'] . "</p>";
-    }
-    ?>
     <br><br><br>
     <form action="./index.php?page=4&from=<?php echo($_GET["from"]); if(isset($_GET["id"])){echo("&id=".$_GET["id"]);} ?>" method="POST">
         <label for="login">Votre login</label>

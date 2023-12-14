@@ -88,4 +88,39 @@ function addCommentaire($id_billet, $id_user, $commentaire){
     $stmt->execute();
     return true;
 }
+
+function checkAdmin ($login) {
+    global $db;
+    $stmt = $db->prepare("SELECT admin FROM `utilisateurs` where pseudo=:username");
+    $stmt->bindValue(':username', $login, PDO::PARAM_STR);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($result['admin'] == 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function getAllUsers() {
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM `utilisateurs`");
+    $stmt->execute();
+    return $stmt;
+}
+
+function getAllBillets() {
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM `billets`");
+    $stmt->execute();
+    return $stmt;
+}
+
+function deleteUser($id) {
+    global $db;
+    $stmt = $db->prepare("DELETE FROM `utilisateurs` WHERE id_user = :id");
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    return true;
+}
 ?>
