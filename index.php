@@ -2,7 +2,6 @@
 session_start();
 include './scripts/connect-database.php';
 include './scripts/scripts.php';
-var_dump($_SESSION);
 
 if (isset($_GET['page'])) {
     switch ($_GET['page']) {
@@ -52,8 +51,7 @@ if (isset($_GET['page'])) {
             break;
         case 7:
             if (isset($_SESSION['login']) && isset($_POST['commentaire']) && isset($_POST['id_billet'])) {
-                $id = getId($_SESSION['login'])->fetch(PDO::FETCH_ASSOC);
-                var_dump($id);
+                $id = getId($_SESSION['login'])->fetchColumn();
                 if (addCommentaire($_POST['id_billet'], $id, $_POST['commentaire']) == true) {
                     echo "<p>Commentaire bien ajouté ajouté. Vous allez être redirigés</p>";
                     echo "<script>setTimeout(function(){window.location.href = './index.php?page=1&id=" . $_POST['id_billet'] . "';}, 2000);</script>";
