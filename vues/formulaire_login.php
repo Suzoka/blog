@@ -13,10 +13,10 @@
     <br><br><br>
     <form action="./index.php?page=4&from=<?php echo($_GET["from"]); if(isset($_GET["id"])){echo("&id=".$_GET["id"]);} ?>" method="POST">
         <label for="login">Votre login</label>
-        <input type="text" id="login" name="login">
+        <input type="text" id="login" name="login" required>
         <br><br>
         <label for="MDP">Votre MDP</label>
-        <input type="password" id="MDP" name="MDP">
+        <input type="password" id="MDP" name="MDP" required>
 
         <input type="submit" value="Envoyer">
 

@@ -12,12 +12,12 @@
 <body>
     <br><br><br>
     <form action="./index.php?page=5&from=<?php echo($_GET["from"]); if(isset($_GET["id"])){echo("&id=".$_GET["id"]);}?>" method="POST">
-    <label for="mail">Votre adresse mail</label><input type="email" name="mail" id="mail">
+    <label for="mail">Votre adresse mail</label><input type="email" name="mail" id="mail" required>
         <label for="login">Votre login</label>
-        <input type="text" id="login" name="login">
+        <input type="text" id="login" name="login" required>
         <br><br>
         <label for="MDP">Votre MDP</label>
-        <input type="text" id="MDP" name="MDP">
+        <input type="password" id="MDP" name="MDP" required>
 
         <input type="submit" value="Envoyer">
 

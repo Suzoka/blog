@@ -2,6 +2,7 @@
 session_start();
 include './scripts/connect-database.php';
 include './scripts/scripts.php';
+var_dump($_SESSION);
 
 if (isset($_GET['page'])) {
     switch ($_GET['page']) {
@@ -52,6 +53,7 @@ if (isset($_GET['page'])) {
         case 7:
             if (isset($_SESSION['login']) && isset($_POST['commentaire']) && isset($_POST['id_billet'])) {
                 $id = getId($_SESSION['login'])->fetch(PDO::FETCH_ASSOC);
+                var_dump($id);
                 if (addCommentaire($_POST['id_billet'], $id, $_POST['commentaire']) == true) {
                     echo "<p>Commentaire bien ajouté ajouté. Vous allez être redirigés</p>";
                     echo "<script>setTimeout(function(){window.location.href = './index.php?page=1&id=" . $_POST['id_billet'] . "';}, 2000);</script>";
@@ -67,6 +69,7 @@ if (isset($_GET['page'])) {
             if (isset($_SESSION['login']) && checkAdmin($_SESSION['login']) == true) {
                 $resultat = getAllUsers()->fetchAll(PDO::FETCH_ASSOC);
                 $billets = getAllBillets()->fetchAll(PDO::FETCH_ASSOC);
+                $commentaire = getAllCommentaires()->fetchAll(PDO::FETCH_ASSOC);
                 include './vues/adminPanel.php';
             } else {
                 echo "
@@ -79,18 +82,63 @@ if (isset($_GET['page'])) {
             }
             break;
         case 9:
-            // ! 1 = user, 2 = billet, faire le test
             if (isset($_SESSION['login']) && checkAdmin($_SESSION['login']) == true) {
-                if (isset($_GET['id'])) {
-                    if (deleteUser($_GET['id']) == true) {
-                        echo "<p>Utilisateur bien supprimé. Vous allez être redirigés</p>";
-                        echo "<script>setTimeout(function(){window.location.href = './index.php?page=8';}, 2000);</script>";
+                if (isset($_GET['id']) && isset($_GET['action'])) {
+                    if ($_GET['action'] == 1) {
+                        if (deleteUser($_GET['id']) == true) {
+                            echo "<p>Utilisateur bien supprimé. Vous allez être redirigés</p>";
+                            echo "<script>setTimeout(function(){window.location.href = './index.php?page=8';}, 2000);</script>";
+                        } else {
+                            echo "<p>Erreur lors de la suppression de l'utilisateur. Vous allez être redirigés</p>";
+                            echo "<script>setTimeout(function(){window.location.href = './index.php?page=8';}, 3000);</script>";
+                        }
+                    } else if ($_GET['action'] == 2) {
+                        if (deleteBillet($_GET['id']) == true) {
+                            echo "<p>Billet bien supprimé. Vous allez être redirigés</p>";
+                            echo "<script>setTimeout(function(){window.location.href = './index.php?page=8';}, 2000);</script>";
+                        } else {
+                            echo "<p>Erreur lors de la suppression du billet. Vous allez être redirigés</p>";
+                            echo "<script>setTimeout(function(){window.location.href = './index.php?page=8';}, 3000);</script>";
+                        }
+                    } else if ($_GET['action'] == 3) {
+                        if (deleteCommentaire($_GET['id']) == true) {
+                            echo "<p>Commentaire bien supprimé. Vous allez être redirigés</p>";
+                            echo "<script>setTimeout(function(){window.location.href = './index.php?page=8';}, 2000);</script>";
+                        } else {
+                            echo "<p>Erreur lors de la suppression du commentaire. Vous allez être redirigés</p>";
+                            echo "<script>setTimeout(function(){window.location.href = './index.php?page=8';}, 3000);</script>";
+                        }
                     } else {
                         echo "<p>Erreur lors de la suppression de l'utilisateur. Vous allez être redirigés</p>";
                         echo "<script>setTimeout(function(){window.location.href = './index.php?page=8';}, 3000);</script>";
                     }
                 } else {
                     echo "<p>Erreur lors de la suppression de l'utilisateur. Vous allez être redirigés</p>";
+                    echo "<script>setTimeout(function(){window.location.href = './index.php?page=8';}, 3000);</script>";
+                }
+            } else {
+                echo "
+                <script>
+                    window.onload = function() {
+                        window.location.href = './index.php?page=0';
+                    }
+                </script>
+                ";
+            }
+            break;
+        case 10:
+            if (isset($_SESSION['login']) && checkAdmin($_SESSION['login']) == true) {
+                if (isset($_POST['titre']) && isset($_POST['contenu'])) {
+                    $id = getId($_SESSION['login'])->fetch(PDO::FETCH_ASSOC);
+                    if (addBillet($_POST['titre'], $_POST['contenu'], $id) == true) {
+                        echo "<p>Billet bien ajouté. Vous allez être redirigés</p>";
+                        echo "<script>setTimeout(function(){window.location.href = './index.php?page=8';}, 2000);</script>";
+                    } else {
+                        echo "<p>Erreur lors de l'ajout du billet. Vous allez être redirigés</p>";
+                        echo "<script>setTimeout(function(){window.location.href = './index.php?page=8';}, 3000);</script>";
+                    }
+                } else {
+                    echo "<p>Erreur lors de l'ajout du billet. Vous allez être redirigés</p>";
                     echo "<script>setTimeout(function(){window.location.href = './index.php?page=8';}, 3000);</script>";
                 }
             } else {

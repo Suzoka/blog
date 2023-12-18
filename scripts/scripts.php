@@ -39,7 +39,7 @@ function traiteLogin($login, $mdp) {
 }
 
 function disconnection() {
-    $_session = array();
+    $_SESSION = array();
     session_destroy();
     header('Location: ./index.php?page=0');
 }
@@ -111,7 +111,14 @@ function getAllUsers() {
 
 function getAllBillets() {
     global $db;
-    $stmt = $db->prepare("SELECT * FROM `billets`");
+    $stmt = $db->prepare("SELECT * FROM `billets` order by date_post desc");
+    $stmt->execute();
+    return $stmt;
+}
+
+function getAllCommentaires() {
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM `commentaires`");
     $stmt->execute();
     return $stmt;
 }
@@ -120,6 +127,35 @@ function deleteUser($id) {
     global $db;
     $stmt = $db->prepare("DELETE FROM `utilisateurs` WHERE id_user = :id");
     $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    return true;
+}
+
+function deleteBillet($id) {
+    global $db;
+    $stmt = $db->prepare("delete from `billets` where id_billet = :id");
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    $stmt = $db->prepare("delete from `commentaires` where ext_id_billet = :id");
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    return true;
+}
+
+function deleteCommentaire($id) {
+    global $db;
+    $stmt = $db->prepare("delete from `commentaires` where id_commentaire = :id");
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    return true;
+}
+
+function addBillet($titre, $contenu, $id_auteur) {
+    global $db;
+    $stmt = $db->prepare("INSERT INTO `billets` (`titre`, `contenu_post`, `date_post`, `ext_id_auteur`) VALUES (:titre, :contenu, NOW(), :id_auteur);");
+    $stmt->bindValue(':titre', $titre, PDO::PARAM_STR);
+    $stmt->bindValue(':contenu', $contenu, PDO::PARAM_STR);
+    $stmt->bindValue(':id_auteur', $id_auteur, PDO::PARAM_INT);
     $stmt->execute();
     return true;
 }

@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <header><?php 
+    <header><a class="index" href="./index.php">Accueil</a><?php 
     if (isset($_SESSION['login'])) {
         echo "<p>Bonjour " . $_SESSION['login'] . "</p>";
         if (checkAdmin($_SESSION['login']) == true) {
