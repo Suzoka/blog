@@ -65,7 +65,7 @@ function traiteInscription($login, $mdp, $mail) {
 
 function getCommentaires($id) {
     global $db;
-    $stmt = $db->prepare("select * from `commentaires` c inner join `utilisateurs` u on c.ext_id_auteur = u.id_user where ext_id_billet = :id;");
+    $stmt = $db->prepare("select * from `commentaires` c inner join `utilisateurs` u on c.ext_id_auteur = u.id_user where ext_id_billet = :id ORDER by `date_commentaire`;");
     $stmt->bindValue(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt;
